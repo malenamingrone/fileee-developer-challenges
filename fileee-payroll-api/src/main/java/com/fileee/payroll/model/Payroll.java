@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 public class Payroll {
@@ -20,7 +22,7 @@ public class Payroll {
 
     @Column
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @Column
@@ -66,6 +68,22 @@ public class Payroll {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Payroll payroll = (Payroll) o;
+        return id == payroll.id &&
+                employeeId == payroll.employeeId &&
+                Objects.equals(date, payroll.date) &&
+                Objects.equals(amount, payroll.amount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, employeeId, date, amount);
     }
 
     @Override

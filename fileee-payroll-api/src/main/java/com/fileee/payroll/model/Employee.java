@@ -2,6 +2,7 @@ package com.fileee.payroll.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -61,6 +62,22 @@ public class Employee {
 
     public void setWage(BigDecimal wage) {
         this.wage = wage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id == employee.id &&
+                Objects.equals(name, employee.name) &&
+                salaryType == employee.salaryType &&
+                Objects.equals(wage, employee.wage);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, salaryType, wage);
     }
 
     @Override

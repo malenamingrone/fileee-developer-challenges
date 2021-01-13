@@ -1,5 +1,7 @@
 package com.fileee.payroll.controller;
 
+import com.fileee.payroll.error.EntityNotFoundException;
+import com.fileee.payroll.error.InvalidRequestException;
 import com.fileee.payroll.model.Payroll;
 import com.fileee.payroll.service.EmployeeService;
 import com.fileee.payroll.service.PayrollService;
@@ -22,14 +24,14 @@ public class PayrollController {
     }
 
     @GetMapping
-    public List<Payroll> listPayrolls(@RequestParam(required = false) String employee,
+    public List<Payroll> listPayrolls(@RequestParam(required = false) Long employeeId,
                                       @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate since,
-                                      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) {
-        return payrollService.getAll();
+                                      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate until) throws InvalidRequestException {
+        return payrollService.getPayrollBy(employeeId, since, until);
     }
 
     @PostMapping
-    public List<Payroll> savePayroll(@RequestBody List<Payroll> payrollList) throws Exception {
+    public List<Payroll> savePayrolls(@RequestBody List<Payroll> payrollList) throws EntityNotFoundException {
         for (Payroll payroll : payrollList) {
             employeeService.exists(payroll.getEmployeeId());
         }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class EmployeeService extends CrudService<Employee, Long, EmployeeRepository> {
 
     public EmployeeService(EmployeeRepository repository) {
-        super(repository);
+        super(repository, Employee.class);
     }
 
 }

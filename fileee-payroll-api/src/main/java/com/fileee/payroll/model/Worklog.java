@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -66,6 +67,22 @@ public class Worklog {
 
     public void setWorkedHours(double workedHours) {
         this.workedHours = workedHours;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Worklog worklog = (Worklog) o;
+        return id == worklog.id &&
+                employeeId == worklog.employeeId &&
+                Double.compare(worklog.workedHours, workedHours) == 0 &&
+                Objects.equals(date, worklog.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, employeeId, date, workedHours);
     }
 
     @Override

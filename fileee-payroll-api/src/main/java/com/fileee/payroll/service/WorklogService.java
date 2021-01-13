@@ -10,7 +10,7 @@ import java.util.List;
 public class WorklogService extends CrudService<Worklog, Long, WorklogRepository> {
 
     public WorklogService(WorklogRepository repository) {
-        super(repository);
+        super(repository, Worklog.class);
     }
 
     public List<Worklog> getByEmployee(Long employeeId) {
