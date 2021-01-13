@@ -1,0 +1,11 @@
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/controller/EmployeeController.java
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/repository/EmployeeRepository.java
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/model/Employee.java
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/controller/PayrollController.java
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/Application.java
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/model/Payroll.java
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/model/Worklog.java
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/repository/WorklogRepository.java
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/repository/PayrollRepository.java
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/model/SalaryType.java
+/Users/malenamingrone/wks/fileee-developer-challenges/fileee-payroll-api/src/main/java/com/fileee/payroll/configuration/SwaggerConfig.java

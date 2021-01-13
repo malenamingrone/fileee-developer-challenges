@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/fileee-payroll-api/filee-payroll-system.iml" filepath="$PROJECT_DIR$/fileee-payroll-api/filee-payroll-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fileee-developer-challenges.iml" filepath="$PROJECT_DIR$/fileee-developer-challenges.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fileee-payroll-api/fileee-payroll-api.iml" filepath="$PROJECT_DIR$/fileee-payroll-api/fileee-payroll-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fileee-string-utils/fileee-string-utils.iml" filepath="$PROJECT_DIR$/fileee-string-utils/fileee-string-utils.iml" />
+    </modules>
+  </component>
+</project>
