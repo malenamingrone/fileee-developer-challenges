@@ -1,11 +1,13 @@
 package com.fileee.payroll.error;
 
-public class ApiException extends Exception {
+import org.springframework.http.HttpStatus;
 
-    protected int code;
+public class ApiException extends RuntimeException {
 
-    public int getCode() {
-        return code;
+    protected HttpStatus httpStatus;
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
     }
 
     public ApiException() {
