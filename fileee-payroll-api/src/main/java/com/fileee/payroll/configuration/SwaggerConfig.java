@@ -19,13 +19,19 @@ import static springfox.documentation.service.ApiInfo.DEFAULT_CONTACT;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    @Value("${project.title}")
+    private String title;
+
+    @Value("${project.description}")
+    private String description;
+
     @Value("${version}")
     private String version;
 
     @Bean
     public Docket api() {
-        ApiInfo apiInfo = new ApiInfo("Fileee Developer Tasks", "Simple payroll and accounting system API.", version,
-                "urn:tos", DEFAULT_CONTACT, "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0", new ArrayList<>());
+        ApiInfo apiInfo = new ApiInfo(title, description, version,"urn:tos", DEFAULT_CONTACT,
+                "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0", new ArrayList<>());
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo)

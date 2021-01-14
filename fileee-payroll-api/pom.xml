@@ -19,6 +19,7 @@
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
         <mockito-core.version>3.7.0</mockito-core.version>
         <jar.plugin.version>3.2.0</jar.plugin.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <dependencies>
@@ -64,6 +65,11 @@
             <artifactId>mockito-core</artifactId>
             <version>${mockito-core.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
 
     </dependencies>
