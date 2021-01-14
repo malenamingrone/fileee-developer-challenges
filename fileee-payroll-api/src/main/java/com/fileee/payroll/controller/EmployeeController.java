@@ -5,10 +5,12 @@ import com.fileee.payroll.model.Employee;
 import com.fileee.payroll.model.Worklog;
 import com.fileee.payroll.service.EmployeeService;
 import com.fileee.payroll.service.WorklogService;
+import com.fileee.payroll.utils.SortUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+
 
 @RestController
 @RequestMapping("employees")
@@ -23,9 +25,13 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> listEmployees(@RequestParam(required=false) String sort) {
-        return employeeService.getAll();
+    public List<Employee> listEmployees(@RequestParam(required = false) SortUtils.SortOrder sortOrder) {
+        List<Employee> employees = employeeService.getAll();
+        if (!Objects.isNull(sortOrder)) {
+            employees = SortUtils.sortBy(Employee::getName, String::compareTo, sortOrder, employees);
         }
+        return employees;
+    }
 
     @GetMapping("/{id}")
     public Employee getEmployee(@PathVariable Long id) throws EntityNotFoundException {
