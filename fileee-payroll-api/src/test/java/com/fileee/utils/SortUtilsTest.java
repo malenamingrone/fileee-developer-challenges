@@ -10,7 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.fileee.payroll.utils.SortUtils.*;
+import static com.fileee.payroll.utils.SortUtils.SortOrder;
+import static com.fileee.payroll.utils.SortUtils.sortBy;
 import static org.junit.Assert.assertEquals;
 
 public class SortUtilsTest {

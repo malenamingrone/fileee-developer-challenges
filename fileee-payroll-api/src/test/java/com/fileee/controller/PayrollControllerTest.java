@@ -60,11 +60,6 @@ public class PayrollControllerTest {
 
     }
 
-//    @Test
-//    public void test() throws Exception {
-//
-//    }
-
     @Test
     public void testListAllPayrolls() throws InvalidRequestException {
         assertEquals(payrollList(), controller.listPayrolls(null, null, null));

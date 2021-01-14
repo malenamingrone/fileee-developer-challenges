@@ -4,6 +4,7 @@ import com.fileee.payroll.entity.Worklog;
 import com.fileee.payroll.repository.WorklogRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -13,8 +14,8 @@ public class WorklogService extends CrudService<Worklog, Long, WorklogRepository
         super(repository, Worklog.class);
     }
 
-    public List<Worklog> getByEmployee(Long employeeId) {
-        return repository.findByEmployeeId(employeeId);
+    public List<Worklog> getBy(Long employeeId, LocalDate startDate, LocalDate endDate) {
+        return repository.findBy(employeeId, startDate, endDate);
     }
 
 }

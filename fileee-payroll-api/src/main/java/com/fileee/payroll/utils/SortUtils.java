@@ -7,6 +7,22 @@ import java.util.function.Function;
 
 public class SortUtils {
 
+    /**
+     * Sorts a given list of pojo objects using bubble sort algorithm. The sort key type must be comparable, e.g.
+     * Integer, String, BigDecimal, etc.
+     * <p>
+     * Every parameter is mandatory, if any is <tt>null</tt>, this method will throw  <tt>NullPointerException</tt>.
+     * </p>
+     *
+     * @param keyExtractor  function that returns the object property to sort the list.
+     * @param keyComparator comparator function that compares the sort key.
+     * @param order         for the list to be sorted, ascending (ASC) or descending (DESC).
+     * @param list          to be sorted.
+     * @param <E>           type of element to be compared.
+     * @param <P>           type of the sort key.
+     * @return the sorted list.
+     * @throws NullPointerException if either argument is null
+     */
     public static <E, P> List<E> sortBy(Function<E, P> keyExtractor, Comparator<P> keyComparator, SortOrder order, List<E> list) {
         E aux;
         //noinspection unchecked
