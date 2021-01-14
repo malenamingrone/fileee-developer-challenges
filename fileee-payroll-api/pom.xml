@@ -11,48 +11,58 @@
 
     <artifactId>fileee-payroll-api</artifactId>
 
+    <properties>
+        <springboot.version>2.4.1</springboot.version>
+        <h2.version>1.4.200</h2.version>
+        <jackson-annotations.version>2.12.1</jackson-annotations.version>
+        <springfox-swagger2.version>3.0.0</springfox-swagger2.version>
+        <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
+        <mockito-core.version>3.7.0</mockito-core.version>
+        <jar.plugin.version>3.2.0</jar.plugin.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.4.1</version>
+            <version>${springboot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>2.4.1</version>
+            <version>${springboot.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.200</version>
+            <version>${h2.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.12.1</version>
+            <version>${jackson-annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>3.0.0</version>
+            <version>${springfox-swagger2.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox-swagger-ui.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <version>2.4.1</version>
+            <version>${springboot.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.7.0</version>
+            <version>${mockito-core.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -72,7 +82,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${jar.plugin.version}</version>
                 <configuration>
                     <archive>
                         <manifest>
