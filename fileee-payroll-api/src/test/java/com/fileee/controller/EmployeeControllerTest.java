@@ -2,8 +2,8 @@ package com.fileee.controller;
 
 import com.fileee.payroll.controller.EmployeeController;
 import com.fileee.payroll.error.EntityNotFoundException;
-import com.fileee.payroll.model.Employee;
-import com.fileee.payroll.model.SalaryType;
+import com.fileee.payroll.entity.Employee;
+import com.fileee.payroll.entity.SalaryType;
 import com.fileee.payroll.repository.EmployeeRepository;
 import com.fileee.payroll.repository.WorklogRepository;
 import com.fileee.payroll.service.EmployeeService;

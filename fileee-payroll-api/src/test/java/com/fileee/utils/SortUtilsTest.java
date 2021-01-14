@@ -1,8 +1,8 @@
 package com.fileee.utils;
 
-import com.fileee.payroll.model.Employee;
-import com.fileee.payroll.model.Payroll;
-import com.fileee.payroll.model.SalaryType;
+import com.fileee.payroll.entity.Employee;
+import com.fileee.payroll.entity.Payroll;
+import com.fileee.payroll.entity.SalaryType;
 import org.junit.Test;
 
 import java.math.BigDecimal;
