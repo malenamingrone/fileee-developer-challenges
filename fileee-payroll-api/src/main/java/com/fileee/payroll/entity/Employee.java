@@ -1,4 +1,4 @@
-package com.fileee.payroll.model;
+package com.fileee.payroll.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

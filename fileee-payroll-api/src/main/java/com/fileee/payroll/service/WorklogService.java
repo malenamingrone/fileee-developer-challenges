@@ -1,6 +1,6 @@
 package com.fileee.payroll.service;
 
-import com.fileee.payroll.model.Worklog;
+import com.fileee.payroll.entity.Worklog;
 import com.fileee.payroll.repository.WorklogRepository;
 import org.springframework.stereotype.Service;
 

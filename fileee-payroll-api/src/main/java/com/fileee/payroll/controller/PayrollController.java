@@ -2,7 +2,7 @@ package com.fileee.payroll.controller;
 
 import com.fileee.payroll.error.EntityNotFoundException;
 import com.fileee.payroll.error.InvalidRequestException;
-import com.fileee.payroll.model.Payroll;
+import com.fileee.payroll.entity.Payroll;
 import com.fileee.payroll.service.EmployeeService;
 import com.fileee.payroll.service.PayrollService;
 import org.springframework.format.annotation.DateTimeFormat;

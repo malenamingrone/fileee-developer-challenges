@@ -1,6 +1,6 @@
 package com.fileee.payroll.repository;
 
-import com.fileee.payroll.model.Worklog;
+import com.fileee.payroll.entity.Worklog;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

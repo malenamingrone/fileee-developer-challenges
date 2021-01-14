@@ -1,4 +1,4 @@
-package com.fileee.payroll.model;
+package com.fileee.payroll.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;

@@ -1,7 +1,7 @@
 package com.fileee.payroll.service;
 
 
-import com.fileee.payroll.model.Employee;
+import com.fileee.payroll.entity.Employee;
 import com.fileee.payroll.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
