@@ -10,6 +10,7 @@ import com.fileee.payroll.error.InvalidRequestException;
 import com.fileee.payroll.service.EmployeeService;
 import com.fileee.payroll.service.WorklogService;
 import com.fileee.payroll.utils.SortUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -76,7 +77,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}/wage-settlement")
-    public WageSettlement getWageSettlement(@PathVariable Long id, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) throws ApiException {
+    public WageSettlement getWageSettlement(@PathVariable Long id,
+                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) throws ApiException {
         if (Objects.isNull(startDate) || Objects.isNull(endDate)) {
             throw new InvalidRequestException("Mandatory params startDate/endDate not provided.");
         }
