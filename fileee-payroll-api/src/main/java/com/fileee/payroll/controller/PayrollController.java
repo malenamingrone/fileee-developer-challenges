@@ -6,8 +6,8 @@ import com.fileee.payroll.error.InvalidRequestException;
 import com.fileee.payroll.service.EmployeeService;
 import com.fileee.payroll.service.PayrollService;
 import com.sun.javafx.binding.StringFormatter;
+import freemarker.log.Logger;
 import io.swagger.annotations.ApiOperation;
-import org.apache.log4j.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("payrolls")
 public class PayrollController {
 
-    Logger log = Logger.getLogger(this.getClass().getName());
+    private final Logger log = Logger.getLogger(this.getClass().getName());
 
     private final PayrollService payrollService;
     private final EmployeeService employeeService;
@@ -59,7 +59,7 @@ public class PayrollController {
         for (Payroll payroll : payrollList) {
             employeeService.exists(payroll.getEmployeeId());
         }
-        log.info(StringFormatter.format("Saving payroll [%s]...", payrollList));
+        log.info(StringFormatter.format("Saving payroll [%s]...", payrollList).getValue());
         return payrollService.saveAll(payrollList);
     }
 

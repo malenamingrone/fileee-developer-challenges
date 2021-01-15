@@ -7,18 +7,23 @@ import com.fileee.payroll.entity.Worklog;
 import com.fileee.payroll.error.ApiException;
 import com.fileee.payroll.error.EntityNotFoundException;
 import com.fileee.payroll.error.InvalidRequestException;
+import com.fileee.payroll.report.ReportGenerator;
 import com.fileee.payroll.service.EmployeeService;
+import com.fileee.payroll.service.WageSettlementService;
 import com.fileee.payroll.service.WorklogService;
 import com.fileee.payroll.utils.SortUtils;
 import com.sun.javafx.binding.StringFormatter;
+import freemarker.log.Logger;
 import io.swagger.annotations.ApiOperation;
-import org.apache.log4j.Logger;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,14 +31,16 @@ import java.util.Objects;
 @RequestMapping("employees")
 public class EmployeeController {
 
-    Logger log = Logger.getLogger(this.getClass().getName());
+    private final Logger log = Logger.getLogger(this.getClass().getName());
 
     private final EmployeeService employeeService;
     private final WorklogService worklogService;
+    private final WageSettlementService wageSettlementService;
 
-    public EmployeeController(EmployeeService employeeService, WorklogService worklogService) {
+    public EmployeeController(EmployeeService employeeService, WorklogService worklogService, WageSettlementService wageSettlementService) {
         this.employeeService = employeeService;
         this.worklogService = worklogService;
+        this.wageSettlementService = wageSettlementService;
     }
 
     /**
@@ -64,7 +71,7 @@ public class EmployeeController {
     @GetMapping("/{id}")
     @ApiOperation("Gets an employee by id.")
     public Employee getEmployee(@PathVariable Long id) throws EntityNotFoundException {
-        log.info(StringFormatter.format("Getting employee with id [%s]...", id));
+        log.info(StringFormatter.format("Getting employee with id [%s]...", id).getValue());
         return employeeService.getById(id);
     }
 
@@ -92,7 +99,7 @@ public class EmployeeController {
     @PutMapping("/{id}")
     @ApiOperation("Updates an employee by id.")
     public Employee updateEmployee(@PathVariable Long id, Employee employee) throws EntityNotFoundException {
-        log.info(StringFormatter.format("Updating employee with id [%s]...", id));
+        log.info(StringFormatter.format("Updating employee with id [%s]...", id).getValue());
         return employeeService.update(id, employee);
     }
 
@@ -107,7 +114,7 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     @ApiOperation("Deletes an employee by id.")
     public Employee removeEmployee(@PathVariable Long id) throws EntityNotFoundException {
-        log.info(StringFormatter.format("Removing employee with id [%s]...", id));
+        log.info(StringFormatter.format("Removing employee with id [%s]...", id).getValue());
         return employeeService.delete(id);
     }
 
@@ -122,7 +129,7 @@ public class EmployeeController {
     @ApiOperation("Gets an employee's worklog.")
     public List<Worklog> listWorklog(@PathVariable Long id) throws EntityNotFoundException {
         employeeService.exists(id);
-        log.info(StringFormatter.format("Getting employee worklog with id [%s]...", id));
+        log.info(StringFormatter.format("Getting employee worklog with id [%s]...", id).getValue());
         return worklogService.getBy(id, null, null);
     }
 
@@ -142,7 +149,7 @@ public class EmployeeController {
         if (SalaryType.FIXED.equals(employee.getSalaryType())) {
             throw new InvalidRequestException("Can not add worklog to fixed salary employees.");
         }
-        log.info(StringFormatter.format("Adding worklog to employee with id [%s]...", id));
+        log.info(StringFormatter.format("Adding worklog to employee with id [%s]...", id).getValue());
         return worklogService.save(worklog);
     }
 
@@ -159,40 +166,37 @@ public class EmployeeController {
     @GetMapping("/{id}/wage-settlement")
     @ApiOperation("Calculates the wage settlement for an employee for a certain period of time.")
     public WageSettlement getWageSettlement(@PathVariable Long id,
-                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) throws ApiException {
-        if (Objects.isNull(startDate) || Objects.isNull(endDate)) {
-            throw new InvalidRequestException("Mandatory params startDate/endDate not provided.");
-        }
-        if (startDate.isAfter(endDate)) {
-            throw new InvalidRequestException("Date param 'startDate' can not be greater than 'endDate' date param.");
-        }
-
+                                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) throws ApiException {
         Employee employee = employeeService.getById(id);
-        WageSettlement wageSettlement = new WageSettlement();
-        wageSettlement.setEmployee(employee);
-        wageSettlement.setStartDate(startDate);
-        wageSettlement.setEndDate(endDate);
-
-        log.info(StringFormatter.format("Calculating wage settlement for employee with id [%s]...", id));
-        if (SalaryType.HOURLY.equals(employee.getSalaryType())) {
-            List<Worklog> worklog = worklogService.getBy(id, startDate, endDate);
-            log.info("Employee's worklog " + worklog);
-            BigDecimal totalAmount = BigDecimal.ZERO;
-            if (!worklog.isEmpty()) {
-                totalAmount = worklog.stream()
-                        .map(w -> employee.getWage().multiply(BigDecimal.valueOf(w.getWorkedHours())))
-                        .reduce(BigDecimal::add)
-                        .orElseThrow(() -> new ApiException("An error occurred calculation the employee's wage settlement total amount."));
-            }
-            wageSettlement.setTotalAmount(totalAmount);
-        } else {
-            long months = ChronoUnit.MONTHS.between(startDate.withDayOfMonth(1), endDate.withDayOfMonth(1));
-            log.info("Worked months: " + months);
-            wageSettlement.setTotalAmount(BigDecimal.valueOf(months).multiply(employee.getWage()));
-        }
-        log.info("Wage settlement calculated: " + wageSettlement);
-        return wageSettlement;
+        List<Worklog> worklog = worklogService.getBy(id, startDate, endDate);
+        return wageSettlementService.calculateWageSettlement(employee, worklog, startDate, endDate);
     }
 
+
+    /**
+     * Calculates the wage settlement for an employee for a certain period of time.
+     * Returns the information of the employee, the period of time, and the totalAmount paid or to be paid.
+     *
+     * @param id        of the employee.
+     * @param startDate of the period.
+     * @param endDate   of the period.
+     * @return the wage settlement.
+     * @throws ApiException if the request is invalid, or an error occurred calculating the total amount for a hourly salary employee.
+     */
+    @GetMapping("/{id}/wage-settlement/report")
+    @ApiOperation("Downloads a .pdf file with the wage settlement for an employee for a certain period of time.")
+    public ResponseEntity<InputStreamResource> downloadWageSettlement(@PathVariable Long id,
+                                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) throws ApiException {
+        Employee employee = employeeService.getById(id);
+        List<Worklog> worklog = worklogService.getBy(id, startDate, endDate);
+        WageSettlement wageSettlement = wageSettlementService.calculateWageSettlement(employee, worklog, startDate, endDate);
+
+        ByteArrayInputStream report = ReportGenerator.wageSettlementReport(wageSettlement);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=wage-settlement.pdf" )
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(report));
+    }
 }

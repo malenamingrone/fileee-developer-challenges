@@ -11,6 +11,7 @@ import com.fileee.payroll.error.InvalidRequestException;
 import com.fileee.payroll.repository.EmployeeRepository;
 import com.fileee.payroll.repository.WorklogRepository;
 import com.fileee.payroll.service.EmployeeService;
+import com.fileee.payroll.service.WageSettlementService;
 import com.fileee.payroll.service.WorklogService;
 import com.fileee.payroll.utils.SortUtils;
 import org.junit.Before;
@@ -58,7 +59,7 @@ public class EmployeeControllerTest {
     public void setUp() {
         employeeService = new EmployeeService(employeeRepository);
         worklogService = new WorklogService(worklogRepository);
-        controller = new EmployeeController(employeeService, worklogService);
+        controller = new EmployeeController(employeeService, worklogService, new WageSettlementService());
 
         doNothing().when(employeeRepository).delete(any());
         doReturn(employee).when(employeeRepository).save(any());
